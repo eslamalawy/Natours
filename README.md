@@ -1,6 +1,14 @@
 # Natours Application
 
-Built using modern technologies : node.js, express, mongoDb, mongoose, pug, MVC 
+Built using modern technologies : , , mongoDb, mongoose, pug, MVC 
+```diff
+- node.js
+- express
++ mongoDb
+! mongoose
+# pug
+- MVC
+@ MVC
 
-
-##By Eslam Alawy
+> __Note__ 
+By Eslam Alawy
