@@ -13,6 +13,7 @@ const bookingRouter = require("./routes/bookingRoutes");
 const viewRouter = require("./routes/viewRoutes");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const compression = require("compression");
 const app = express();
 
 //views
@@ -65,6 +66,8 @@ app.use(
   })
 );
 
+app.use(compression()); // compression all the text or json sending to the client
+
 // Test middleware
 app.use((req, res, next) => {
   //console.log("Request Cookies:", req.cookies);
@@ -82,7 +85,7 @@ app.use("/", viewRouter); // for views
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/reviews", reviewRouter);
-app.use("/api/v1/bookings",bookingRouter);
+app.use("/api/v1/bookings", bookingRouter);
 
 //handel not hit routes  ---- handel all routes that not responded from the upper routes
 app.all("*", (req, res, next) => {
