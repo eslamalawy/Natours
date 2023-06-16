@@ -58,7 +58,7 @@ app.use("/api", limiter); // just on /api
 
 //stripe successful payments
 app.post(
-  "/webhook-chcekout",
+  "/webhook-checkout",
   express.raw({ type: "application/json" }),
   bookingController.webhookCheckout
 ); // we did here to get the body from stripe not json format to get it as stream
