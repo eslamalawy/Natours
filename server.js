@@ -37,4 +37,10 @@ process.on("unhandledRejection", (err) => {
     process.exit(1);
   });
 });
-// data modeling 02:17:00  adv f pyments
+
+process.on("SIGTERM", (err) => {
+  console.log('👋 SIGTERM RECEIVED Shutting down gracefully')
+  server.close(() => {
+    console.log('🐱‍👤 proccess terminated!')
+  });
+});

@@ -12,7 +12,7 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
   const cookieOptions = {
@@ -21,12 +21,16 @@ const createSendToken = (user, statusCode, res) => {
     ),
     //secure: true, // use the HTTPS connection to send encrypted jwt
     httpOnly: true, // browser can't edit the jwt ( recieve jwt and store and resend it automaticly with each request)
+    secure: req.secure || req.headers["x-forwarded-proto"] === "https",
   };
 
-  if (process.env.NODE_ENV.trim() === "production") {
-    //use https only on production
-    cookieOptions.secure = true;
-  }
+  // if (process.env.NODE_ENV.trim() === "production") { // not all deployments set the https connection so we should check it other way
+  //   //use https only on production
+  //   cookieOptions.secure = true;
+  // }
+
+  //if(req.secure || req.headers['x-forwarded-proto'] === 'https') cookieOptions.secure = true; // heroku always forward the requests so the part req.headers['x-forwarded-proto'] === 'https' checks the original protcol of forwarded req to this app
+  //refactored to up
 
   //attach the jwt in cookie
   res.cookie("jwt", token, cookieOptions);
@@ -57,7 +61,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const url = `${req.protocol}://${req.get("host")}/me`;
   //console.log(url);
   await new Email(newUser, url).sendWelcome();
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, req, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -74,7 +78,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   //3) if everything is ok, sned token to client
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.logout = (req, res) => {
@@ -243,7 +247,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   //3) update changePasswordAt property for the user
   //4) Log the user in, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -261,5 +265,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   await user.save(); // tp use validation
 
   //4) Log user in, send jwt
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });

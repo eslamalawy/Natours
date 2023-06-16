@@ -15,6 +15,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const app = express();
+app.enable('trust proxy'); //as heroku works as proxy,  to get all req info in auth controller jwt creation step
 
 //views
 app.set("view engine", "pug");
