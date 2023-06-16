@@ -25,14 +25,14 @@ app.set("views", path.join(__dirname, "views"));
 
 // 1) GLOBAL MIDDLEWARES
 // implement CORS
-app.use(cors()); // if you want to  add it to specific route just add it as middleware before it like app.use("/api/v1/tours", cors(),tourRouter);
+///---app.use(cors()); // if you want to  add it to specific route just add it as middleware before it like app.use("/api/v1/tours", cors(),tourRouter);
 // Access-Control-Allow-Origin * [that will allow all to access]
 // api.natours.com , frontend -> natours.com  if we want only the front end access it
 // app.use(cors({origin: 'https://www.natours.com'}))
 // this works for simple requests get post
 
 //this to allow other operaton for not simple requests like patch or delete or update
-app.options("*", cors()); // it's like get or post
+///---app.options("*", cors()); // it's like get or post
 //incase you want specific route to be updated or apply not simple requests use
 //app.options('/api/v1/tours/:id', cors())
 
