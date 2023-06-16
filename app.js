@@ -11,6 +11,7 @@ const tourRouter = require("./routes/tourRoutes");
 const userRouter = require("./routes/userRoutes");
 const reviewRouter = require("./routes/reviewRoutes");
 const bookingRouter = require("./routes/bookingRoutes");
+const bookingController = require("./controllers/bookingController");
 const viewRouter = require("./routes/viewRoutes");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -31,7 +32,7 @@ app.use(cors()); // if you want to  add it to specific route just add it as midd
 // this works for simple requests get post
 
 //this to allow other operaton for not simple requests like patch or delete or update
-app.options('*', cors()); // it's like get or post
+app.options("*", cors()); // it's like get or post
 //incase you want specific route to be updated or apply not simple requests use
 //app.options('/api/v1/tours/:id', cors())
 
@@ -54,6 +55,13 @@ const limiter = rateLimit({
   message: "Too many requrests from this IP, please try again in an hour!",
 });
 app.use("/api", limiter); // just on /api
+
+//stripe successful payments
+app.post(
+  "/webhook-chcekout",
+  express.raw({ type: "application/json" }),
+  bookingController.webhookCheckout
+); // we did here to get the body from stripe not json format to get it as stream
 
 //body parser, reading data from body into req.body
 app.use(express.json({ limit: "10kb" })); // middleware that used to get the data from the request as json
