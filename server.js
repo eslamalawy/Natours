@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+//const dotenv = require("dotenv"); //heroku have his own env file
 
 
 // handel uncaught exceptions like   console.log(anyundefiend_variable)
@@ -9,7 +9,7 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-dotenv.config({ path: "./config.env" });
+//dotenv.config({ path: "./config.env" });
 const app = require("./app");
 
 const DB = process.env.DATABASE.replace(
