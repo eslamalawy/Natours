@@ -69,6 +69,5 @@ if (bookBtn) {
     e.target.textContent = 'Processing...';
     const { tourId } = e.target.dataset; // it converted to camel case data-tour-id =>  data will be removed and tour-id be tourId
     bookTour(tourId);
-    e.target.textContent = 'Book tour now!';
   });
 }
