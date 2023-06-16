@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
+const cors = require("cors");
 const AppError = require("./utils/appError");
 const golbalErrorHandler = require("./controllers/errorController");
 const tourRouter = require("./routes/tourRoutes");
@@ -15,13 +16,25 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const app = express();
-app.enable('trust proxy'); //as heroku works as proxy,  to get all req info in auth controller jwt creation step
+app.enable("trust proxy"); //as heroku works as proxy,  to get all req info in auth controller jwt creation step
 
 //views
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
 // 1) GLOBAL MIDDLEWARES
+// implement CORS
+app.use(cors()); // if you want to  add it to specific route just add it as middleware before it like app.use("/api/v1/tours", cors(),tourRouter);
+// Access-Control-Allow-Origin * [that will allow all to access]
+// api.natours.com , frontend -> natours.com  if we want only the front end access it
+// app.use(cors({origin: 'https://www.natours.com'}))
+// this works for simple requests get post
+
+//this to allow other operaton for not simple requests like patch or delete or update
+app.options('*', cors()); // it's like get or post
+//incase you want specific route to be updated or apply not simple requests use
+//app.options('/api/v1/tours/:id', cors())
+
 //serving static files
 app.use(express.static(path.join(__dirname, "public")));
 
