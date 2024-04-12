@@ -11,4 +11,5 @@ Built using modern technologies : node.js ,express , mongoDb, mongoose, pug, MVC
 - MVC
 ```
 
-> By Eslam Alawy
+> By [Eslam Alawy](https://github.com/eslamalawy)  
+> [koot magdy](https://github.com/kootmagdy)
